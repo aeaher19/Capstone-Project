@@ -1,0 +1,20 @@
+---
+title: "Data Exploration"
+author: "Aubrey Ahern"
+date: "11/8/2022"
+output: html_document
+---
+
+set things up
+```{r}
+rm(list = ls())
+library(here)
+library(ggplot2)
+library(dplyr)
+```
+
+suck in data
+```{r}
+
+```
+
