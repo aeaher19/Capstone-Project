@@ -18,16 +18,32 @@ suck in data
 DF <- read.csv(here("Data", "fixed-deaths.csv"), stringsAsFactors = TRUE)
 ```
 
+check for mistakes
+
 age ranges
 ```{r}
 levels(DF$age_at_death)
 ```
-
-
+genders
 ```{r}
-levels(DF$Group)
+levels(DF$current_gender)
+```
+races
+```{r}
+levels(DF$race_ethnicity)
+```
+transmission categories
+```{r}
+levels(DF$transmission_category)
 ```
 
-i think the way my data is formated is ruining my life
-contemplating reorganizing the entire csv......
+no errors that i can see... let's explore
+
+histogram
+```{r}
+ggplot(DF, aes(x = age_at_death))+geom_histogram(stat = "count")
+```
+not sure how to only look at a section of the data....
+
+i need help i dont know how to fix the format of my data
 
