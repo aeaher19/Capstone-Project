@@ -15,6 +15,18 @@ library(dplyr)
 
 suck in data
 ```{r}
-
+DF <- read.csv(here("Data", "deaths-of-persons-diagnosed-with-hiv-aids.csv"), stringsAsFactors = TRUE)
 ```
+
+years
+```{r}
+levels(DF$Category)
+```
+
+```{r}
+levels(DF$Group)
+```
+
+i think the way my data is formated is ruining my life
+contemplating reorganizing the entire csv......
 
