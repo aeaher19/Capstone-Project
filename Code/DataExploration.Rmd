@@ -15,13 +15,14 @@ library(dplyr)
 
 suck in data
 ```{r}
-DF <- read.csv(here("Data", "deaths-of-persons-diagnosed-with-hiv-aids.csv"), stringsAsFactors = TRUE)
+DF <- read.csv(here("Data", "fixed-deaths.csv"), stringsAsFactors = TRUE)
 ```
 
-years
+age ranges
 ```{r}
-levels(DF$Category)
+levels(DF$age_at_death)
 ```
+
 
 ```{r}
 levels(DF$Group)
