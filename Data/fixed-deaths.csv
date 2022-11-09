@@ -1,0 +1,288 @@
+﻿year,age_at_death,current_gender,race_ethnicity,transmission_category,count
+2011,0-11,NA,NA,NA,0
+2011, 12-14,NA,NA,NA,0
+2011,15-17,NA,NA,NA,0
+2011,18-19,NA,NA,NA,0
+2011,20-24,NA,NA,NA,19
+2011,25-29,NA,NA,NA,33
+2011,30-34,NA,NA,NA,60
+2011,35-39,NA,NA,NA,107
+2011,40-44,NA,NA,NA,167
+2011,45-49,NA,NA,NA,324
+2011,50-54,NA,NA,NA,326
+2011,55-59,NA,NA,NA,290
+2011,60-64,NA,NA,NA,163
+2011,65-74,NA,NA,NA,181
+2011,>= 75,NA,NA,NA,49
+2012,0-11,NA,NA,NA,0
+2012, 12-14,NA,NA,NA,1
+2012,15-17,NA,NA,NA,0
+2012,18-19,NA,NA,NA,1
+2012,20-24,NA,NA,NA,12
+2012,25-29,NA,NA,NA,28
+2012,30-34,NA,NA,NA,61
+2012,35-39,NA,NA,NA,98
+2012,40-44,NA,NA,NA,158
+2012,45-49,NA,NA,NA,256
+2012,50-54,NA,NA,NA,346
+2012,55-59,NA,NA,NA,271
+2012,60-64,NA,NA,NA,213
+2012,65-74,NA,NA,NA,197
+2012,>= 75,NA,NA,NA,60
+2013,0-11,NA,NA,NA,0
+2013, 12-14,NA,NA,NA,0
+2013,15-17,NA,NA,NA,0
+2013,18-19,NA,NA,NA,0
+2013,20-24,NA,NA,NA,8
+2013,25-29,NA,NA,NA,48
+2013,30-34,NA,NA,NA,59
+2013,35-39,NA,NA,NA,83
+2013,40-44,NA,NA,NA,141
+2013,45-49,NA,NA,NA,277
+2013,50-54,NA,NA,NA,298
+2013,55-59,NA,NA,NA,301
+2013,60-64,NA,NA,NA,223
+2013,65-74,NA,NA,NA,215
+2013,>= 75,NA,NA,NA,82
+2014,0-11,NA,NA,NA,0
+2014, 12-14,NA,NA,NA,1
+2014,15-17,NA,NA,NA,0
+2014,18-19,NA,NA,NA,0
+2014,20-24,NA,NA,NA,10
+2014,25-29,NA,NA,NA,27
+2014,30-34,NA,NA,NA,50
+2014,35-39,NA,NA,NA,79
+2014,40-44,NA,NA,NA,130
+2014,45-49,NA,NA,NA,255
+2014,50-54,NA,NA,NA,334
+2014,55-59,NA,NA,NA,308
+2014,60-64,NA,NA,NA,260
+2014,65-74,NA,NA,NA,240
+2014,>= 75,NA,NA,NA,69
+2015,0-11,NA,NA,NA,0
+2015, 12-14,NA,NA,NA,0
+2015,15-17,NA,NA,NA,0
+2015,18-19,NA,NA,NA,0
+2015,20-24,NA,NA,NA,11
+2015,25-29,NA,NA,NA,26
+2015,30-34,NA,NA,NA,71
+2015,35-39,NA,NA,NA,92
+2015,40-44,NA,NA,NA,138
+2015,45-49,NA,NA,NA,205
+2015,50-54,NA,NA,NA,321
+2015,55-59,NA,NA,NA,349
+2015,60-64,NA,NA,NA,240
+2015,65-74,NA,NA,NA,263
+2015,>= 75,NA,NA,NA,87
+2016,0-11,NA,NA,NA,0
+2016, 12-14,NA,NA,NA,0
+2016,15-17,NA,NA,NA,0
+2016,18-19,NA,NA,NA,0
+2016,20-24,NA,NA,NA,10
+2016,25-29,NA,NA,NA,50
+2016,30-34,NA,NA,NA,65
+2016,35-39,NA,NA,NA,110
+2016,40-44,NA,NA,NA,99
+2016,45-49,NA,NA,NA,213
+2016,50-54,NA,NA,NA,321
+2016,55-59,NA,NA,NA,341
+2016,60-64,NA,NA,NA,280
+2016,65-74,NA,NA,NA,280
+2016,>= 75,NA,NA,NA,99
+2017,0-11,NA,NA,NA,0
+2017, 12-14,NA,NA,NA,0
+2017,15-17,NA,NA,NA,1
+2017,18-19,NA,NA,NA,1
+2017,20-24,NA,NA,NA,9
+2017,25-29,NA,NA,NA,48
+2017,30-34,NA,NA,NA,68
+2017,35-39,NA,NA,NA,101
+2017,40-44,NA,NA,NA,95
+2017,45-49,NA,NA,NA,180
+2017,50-54,NA,NA,NA,294
+2017,55-59,NA,NA,NA,361
+2017,60-64,NA,NA,NA,280
+2017,65-74,NA,NA,NA,292
+2017,>= 75,NA,NA,NA,144
+2011,NA,Cisgender men,NA,NA,1467
+2011,NA,Cisgender women,NA,NA,233
+2011,NA,Transgender women,NA,NA,19
+2011,NA,Transgender men,NA,NA,0
+2011,NA,Alternative gender,NA,NA,0
+2012,NA,Cisgender men,NA,NA,1434
+2012,NA,Cisgender women,NA,NA,245
+2012,NA,Transgender women,NA,NA,23
+2012,NA,Transgender men,NA,NA,0
+2012,NA,Alternative gender,NA,NA,0
+2013,NA,Cisgender men,NA,NA,"1,481"
+2013,NA,Cisgender women,NA,NA,229
+2013,NA,Transgender women,NA,NA,24
+2013,NA,Transgender men,NA,NA,1
+2013,NA,Alternative gender,NA,NA,0
+2014,NA,Cisgender men,NA,NA,"1,514"
+2014,NA,Cisgender women,NA,NA,225
+2014,NA,Transgender women,NA,NA,24
+2014,NA,Transgender men,NA,NA,0
+2014,NA,Alternative gender,NA,NA,0
+2015,NA,Cisgender men,NA,NA,"1,560"
+2015,NA,Cisgender women,NA,NA,219
+2015,NA,Transgender women,NA,NA,22
+2015,NA,Transgender men,NA,NA,1
+2015,NA,Alternative gender,NA,NA,1
+2016,NA,Cisgender men,NA,NA,"1,595"
+2016,NA,Cisgender women,NA,NA,240
+2016,NA,Transgender women,NA,NA,33
+2016,NA,Transgender men,NA,NA,0
+2016,NA,Alternative gender,NA,NA,0
+2017,NA,Cisgender men,NA,NA,"1,641"
+2017,NA,Cisgender women,NA,NA,211
+2017,NA,Transgender women,NA,NA,22
+2017,NA,Transgender men,NA,NA,0
+2017,NA,Alternative gender,NA,NA,0
+2011,NA,NA,American Indian/Alaska Native,NA,4
+2011,NA,NA,Asian*,NA,29
+2011,NA,NA,Black/African American,NA,399
+2011,NA,NA,Latinx,NA,420
+2011,NA,NA,Native Hawaiian/Pacific Islander,NA,1
+2011,NA,NA,White,NA,788
+2011,NA,NA,Multiple races,NA,78
+2012,NA,NA,American Indian/Alaska Native,NA,3
+2012,NA,NA,Asian*,NA,26
+2012,NA,NA,Black/African American,NA,355
+2012,NA,NA,Latinx,NA,426
+2012,NA,NA,Native Hawaiian/Pacific Islander,NA,1
+2012,NA,NA,White,NA,809
+2012,NA,NA,Multiple races,NA,82
+2013,NA,NA,American Indian/Alaska Native,NA,9
+2013,NA,NA,Asian*,NA,22
+2013,NA,NA,Black/African American,NA,361
+2013,NA,NA,Latinx,NA,451
+2013,NA,NA,Native Hawaiian/Pacific Islander,NA,4
+2013,NA,NA,White,NA,794
+2013,NA,NA,Multiple races,NA,94
+2014,NA,NA,American Indian/Alaska Native,NA,3
+2014,NA,NA,Asian*,NA,26
+2014,NA,NA,Black/African American,NA,371
+2014,NA,NA,Latinx,NA,467
+2014,NA,NA,Native Hawaiian/Pacific Islander,NA,1
+2014,NA,NA,White,NA,800
+2014,NA,NA,Multiple races,NA,95
+2015,NA,NA,American Indian/Alaska Native,NA,5
+2015,NA,NA,Asian*,NA,37
+2015,NA,NA,Black/African American,NA,401
+2015,NA,NA,Latinx,NA,459
+2015,NA,NA,Native Hawaiian/Pacific Islander,NA,3
+2015,NA,NA,White,NA,799
+2015,NA,NA,Multiple races,NA,99
+2016,NA,NA,American Indian/Alaska Native,NA,4
+2016,NA,NA,Asian*,NA,31
+2016,NA,NA,Black/African American,NA,433
+2016,NA,NA,Latinx,NA,460
+2016,NA,NA,Native Hawaiian/Pacific Islander,NA,2
+2016,NA,NA,White,NA,825
+2016,NA,NA,Multiple races,NA,113
+2017,NA,NA,American Indian/Alaska Native,NA,5
+2017,NA,NA,Asian*,NA,29
+2017,NA,NA,Black/African American,NA,377
+2017,NA,NA,Latinx,NA,518
+2017,NA,NA,Native Hawaiian/Pacific Islander,NA,0
+2017,NA,NA,White,NA,828
+2017,NA,NA,Multiple races,NA,117
+2011,NA,NA,NA,Male-to-male sexual contact (MMSC),883
+2011,NA,NA,NA,Injection drug use (IDU),165
+2011,NA,NA,NA,MMSC and IDU,238
+2011,NA,NA,NA,High-risk heterosexual contact (HRH)**,47
+2011,NA,NA,NA,Heterosexual contact (Non-HRH)***,58
+2011,NA,NA,NA,Perinatal,2
+2011,NA,NA,NA,Unknown risk,86
+2011,NA,NA,NA,Other***,7
+2011,NA,NA,NA,Injection drug use (IDU),103
+2011,NA,NA,NA,High-risk heterosexual contact (HRH)**,90
+2011,NA,NA,NA,Heterosexual contact (Non-HRH)***,23
+2011,NA,NA,NA,Perinatal,2
+2011,NA,NA,NA,Unknown risk,14
+2011,NA,NA,NA,Other****,1
+2012,NA,NA,NA,Male-to-male sexual contact (MMSC),913
+2012,NA,NA,NA,Injection drug use (IDU),165
+2012,NA,NA,NA,MMSC and IDU,212
+2012,NA,NA,NA,High-risk heterosexual contact (HRH)**,47
+2012,NA,NA,NA,Heterosexual contact (Non-HRH)***,40
+2012,NA,NA,NA,Perinatal,5
+2012,NA,NA,NA,Unknown risk,67
+2012,NA,NA,NA,Other***,8
+2012,NA,NA,NA,Injection drug use (IDU),93
+2012,NA,NA,NA,High-risk heterosexual contact (HRH)**,90
+2012,NA,NA,NA,Heterosexual contact (Non-HRH)***,37
+2012,NA,NA,NA,Perinatal,4
+2012,NA,NA,NA,Unknown risk,19
+2012,NA,NA,NA,Other****,2
+2013,NA,NA,NA,Male-to-male sexual contact (MMSC),972
+2013,NA,NA,NA,Injection drug use (IDU),169
+2013,NA,NA,NA,MMSC and IDU,206
+2013,NA,NA,NA,High-risk heterosexual contact (HRH)**,52
+2013,NA,NA,NA,Heterosexual contact (Non-HRH)***,50
+2013,NA,NA,NA,Perinatal,2
+2013,NA,NA,NA,Unknown risk,48
+2012,NA,NA,NA,Other***,6
+2013,NA,NA,NA,Injection drug use (IDU),108
+2013,NA,NA,NA,High-risk heterosexual contact (HRH)**,82
+2013,NA,NA,NA,Heterosexual contact (Non-HRH)***,27
+2013,NA,NA,NA,Perinatal,0
+2013,NA,NA,NA,Unknown risk,13
+2013,NA,NA,NA,Other****,0
+2014,NA,NA,NA,Male-to-male sexual contact (MMSC),999
+2014,NA,NA,NA,Injection drug use (IDU),144
+2014,NA,NA,NA,MMSC and IDU,240
+2014,NA,NA,NA,High-risk heterosexual contact (HRH)**,47
+2014,NA,NA,NA,Heterosexual contact (Non-HRH)***,42
+2014,NA,NA,NA,Perinatal,2
+2014,NA,NA,NA,Unknown risk,60
+2014,NA,NA,NA,Other***,4
+2014,NA,NA,NA,Injection drug use (IDU),97
+2014,NA,NA,NA,High-risk heterosexual contact (HRH)**,86
+2014,NA,NA,NA,Heterosexual contact (Non-HRH)***,26
+2014,NA,NA,NA,Perinatal,0
+2014,NA,NA,NA,Unknown risk,15
+2014,NA,NA,NA,Other****,1
+2015,NA,NA,NA,Male-to-male sexual contact (MMSC),990
+2015,NA,NA,NA,Injection drug use (IDU),164
+2015,NA,NA,NA,MMSC and IDU,249
+2015,NA,NA,NA,High-risk heterosexual contact (HRH)**,62
+2015,NA,NA,NA,Heterosexual contact (Non-HRH)***,44
+2015,NA,NA,NA,Perinatal,2
+2015,NA,NA,NA,Unknown risk,63
+2015,NA,NA,NA,Other***,9
+2015,NA,NA,NA,Injection drug use (IDU),98
+2015,NA,NA,NA,High-risk heterosexual contact (HRH)**,76
+2015,NA,NA,NA,Heterosexual contact (Non-HRH)***,31
+2015,NA,NA,NA,Perinatal,2
+2015,NA,NA,NA,Unknown risk,10
+2015,NA,NA,NA,Other****,3
+2016,NA,NA,NA,Male-to-male sexual contact (MMSC),"1,026"
+2016,NA,NA,NA,Injection drug use (IDU),161
+2016,NA,NA,NA,MMSC and IDU,232
+2016,NA,NA,NA,High-risk heterosexual contact (HRH)**,58
+2016,NA,NA,NA,Heterosexual contact (Non-HRH)***,59
+2016,NA,NA,NA,Perinatal,5
+2016,NA,NA,NA,Unknown risk,82
+2016,NA,NA,NA,Other***,5
+2016,NA,NA,NA,Injection drug use (IDU),81
+2016,NA,NA,NA,High-risk heterosexual contact (HRH)**,103
+2016,NA,NA,NA,Heterosexual contact (Non-HRH)***,35
+2016,NA,NA,NA,Perinatal,2
+2016,NA,NA,NA,Unknown risk,17
+2016,NA,NA,NA,Other****,2
+2017,NA,NA,NA,Male-to-male sexual contact (MMSC),"1,050"
+2017,NA,NA,NA,Injection drug use (IDU),147
+2017,NA,NA,NA,MMSC and IDU,244
+2017,NA,NA,NA,High-risk heterosexual contact (HRH)**,66
+2017,NA,NA,NA,Heterosexual contact (Non-HRH)***,62
+2017,NA,NA,NA,Perinatal,5
+2017,NA,NA,NA,Unknown risk,83
+2017,NA,NA,NA,Other***,6
+2017,NA,NA,NA,Injection drug use (IDU),81
+2017,NA,NA,NA,High-risk heterosexual contact (HRH)**,72
+2017,NA,NA,NA,Heterosexual contact (Non-HRH)***,41
+2017,NA,NA,NA,Perinatal,1
+2017,NA,NA,NA,Unknown risk,14
+2017,NA,NA,NA,Other****,2
