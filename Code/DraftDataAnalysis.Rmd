@@ -1,0 +1,12 @@
+---
+title: "Draft Data Analysis and Report"
+author: "Aubrey Ahern"
+date: "11/14/2022"
+output: html_document
+---
+
+```{r}
+rm(list = ls())
+library(here)
+library(tidyverse)
+```
