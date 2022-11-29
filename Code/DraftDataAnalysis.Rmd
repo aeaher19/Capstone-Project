@@ -2,94 +2,146 @@
 title: "Draft Data Analysis and Report"
 author: "Aubrey Ahern"
 date: "11/14/2022"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
 ---
 
-#Introduction
+
+
+## Introduction
+
 I took my data from https://data.chhs.ca.gov/dataset/hiv-aids-cases. This work outlines all cause deaths in HIV/AIDS by gender, age, race/ethnicity, and transmission category. This data was collected from 2011-2017 within the state of California in order to collect public health information.
 
 As outlined within the assignment, I will be using the following steps to structure my Data Analysis: find data set -> repair data set -> plot relationships -> summarize focal data -> plot expected relationships in data -> guess expected relationships before fitting model -> decide on a statistical model -> check model assumptions -> run statistical model -> interpret your model ->replot data and model to show key relationships
 
-#Getting Started
-Set things up:
+
+## Getting Started
+Set things up and import the necessary packages...
 ```{r}
 rm(list = ls())
 library(here)
 library(ggfortify)
 library(tidyverse)
+library(AICcmodavg)
 ```
 
-I made sure my data was compatible to work with R by adjusting column names to exclude spaces and special characters and so that categories were organized as columns instead of rows. Throughout this process, I made sure that each cell contained only one piece of information.
 
-I would also like to address the limitations of this data set before I beging my main code. While this data set contains a lot of information on demographic information on those who have died from HIV/AIDS, it only includes one piece of information per datum. I have looked into how I can adjust this extensively but it seems that it's not a matter of data organization but a matter of how the data was collected. So, here's my best shot to make this data set work.
+I made sure my data was compatible to work with R by adjusting column names to exclude spaces and special characters and so that categories were organized as columns instead of rows. Throughout this process, I made sure that each cell contained only one piece of information.
+I would also like to address the limitations of this data set before I beging my main code. While this data set contains a lot of information on demographic information on those who have died from HIV/AIDS, it only includes one piece of information per datum. I have worked with the data as best I could but would potentially use a more extensive data set in the future. 
+
 
 Import my data set:
 ```{r}
 DF <- read.csv(here("Data", "fixed-deaths.csv"), stringsAsFactors = TRUE)
+DF$count <- as.numeric(DF$count)
 ```
 
-#Analysis
 
-Let's consider my first relationship and look at the data between gender and the count of those who died.
+## Analysis
+First, let's consider the relationship between gender identity and death count by HIV/AIDS. 
 ```{r}
-DF %>%
+DF_gender <- DF %>%
+  mutate(count = as.numeric(count)) %>%
   group_by(current_gender) %>%
-  summarise(count = n()) %>%
-  arrange(desc(count))
+  summarise(count = sum(count)) %>%
+  arrange(desc(count)) %>%
+  na.omit()
+
+DF_gender
 ```
 
-Now let's visualize it.
+
+Now let's visualize this relationship.
 ```{r}
-ggplot(DF, aes(current_gender, count))+
-     geom_boxplot()+
-     geom_point()
+ggplot(DF_gender, aes(current_gender, count))+
+     geom_col()
 ```
 
-Based on the information provided by looking at the data, I can hypothesize that there is no relationship between gender and those who died of HIV/AIDS.
+Based on this visualization we can hypothesize that cisgender and transgender women are more likely to die from HIV/AIDS thank those of other genders. 
+Now, let's run a statistical test to see if I can accept or reject the null hypothesis. This relationship includes one piece of categorical data (current gender) and one piece of count data (count). Thus, I will conduct an ANOVA test.
 
-Now, let's run a statistical test to see if I can accept the null hypothesis as predicted. This relationship includes one piece of categorical data (current gender) and one piece of count data (count). Thus, I will conduct an ANOVA test.
-
+Before I can run my statistical test, I must exclude all pieces of data that do not address gender to make my data compatible for R.
 ```{r}
-myMod <- lm(count ~ current_gender, data = DF)
+DF_model <- DF %>%
+  mutate(count = as.numeric(count)) %>%
+  slice(106:140)
+myMod1 <- lm(count ~ current_gender, data = DF_model)
 ```
-
-I am not sure what I am doing wrong at this step, I keep getting this error message "Show in New Window Warning in model.response(mf, "numeric") : using type = "numeric" with a factor response will be ignored Warning in Ops.factor(y, z$residuals) : ‘-’ not meaningful for factors"
-I will need to resolve this so that I can run my anova test and create a complete draft/presentation.
-
-```{r}
-anova(myMod)
-```
-
-Now let's consider my second relationship and look at the data between age_at_death and the count of those who died.
-```{r}
-DF %>%
-  group_by(age_at_death) %>%
-  summarise(count = n()) %>%
-  arrange(desc(count))
-```
-
-Now let's visualize it.
-```{r}
-ggplot(DF, aes(age_at_death, count))+
-     geom_boxplot()+
-     geom_point()
-```
-
-Based on the information provided by looking at the data, I can hypothesize that there is no relationship between age at death and those who died of HIV/AIDS.
-
-Now, let's run a statistical test to see if I can accept the null hypothesis as predicted. I will conduct another ANOVA test.
 
 ```{r}
-myMod2 <- lm(count ~ age_at_death, data = DF)
+anova(myMod1)
 ```
 
-I am not sure what I am doing wrong at this step, I keep getting this error message "Show in New Window Warning in model.response(mf, "numeric") : using type = "numeric" with a factor response will be ignored Warning in Ops.factor(y, z$residuals) : ‘-’ not meaningful for factors"
-I will need to resolve this so that I can run my anova test and create a complete draft/presentation.
 
+Given my first test, we may see that trans women and cis women experienced more deaths by HIV-AIDS than those of other genders. Thus, let's analyze the relationship between year and deaths for trans and cis women. 
+Before we can run our second statistical test, let's create a new data frame that only contains the data we wish to analyze.
 ```{r}
-anova(myMod2)
+DF_transwomen <- DF %>%
+  filter(current_gender == "Transgender women")%>%
+  mutate(year = as.numeric(year),
+         count = as.numeric(count))
+DF_transwomen
 ```
+
+Now, we may run a t-test to see if there is a relationship between time (in years) and death count for trans women.
+```{r}
+myMod2 <- lm(count ~ year, data = DF_transwomen)
+summary(myMod2)
+```
+
+This allows us to accept our null hypothesis as there was no observable relationship between year and death count for trans women.
+Let's take a look at the same relationship but with cis women. 
+
+Again, I will first create a new data frame that only contains the data I wish to analyze.
+```{r}
+DF_ciswomen <- DF %>%
+  filter(current_gender == "Cisgender women")%>%
+  mutate(year = as.numeric(year),
+         count = as.numeric(count))
+DF_ciswomen
+```
+
+Now, let's run another t-test to see if there is a relationship between time (in years) and death count for cis women.  
+```{r}
+myMod3 <- lm(count ~ year, data = DF_ciswomen)
+summary(myMod3)
+```
+
+This allows us to accept our null hypothesis as there was no observable relationship between year and death count for cis women.
+
+
+
+
+Let's try to consider what category, race, gender, age, or transmission method, is the best predictor of deth count by HIV/AIDS.
+First let's create the models necessary for an AIC Table which will indicate to us what the best predictor is.
+```{r}
+mod_race <- lm(count ~ race_ethnicity, data = DF)
+mod_gender <- lm(count ~ current_gender, data = DF)
+mod_age <- lm(count ~ age_at_death, data = DF)
+mod_transmission <- lm(count ~ transmission_category, data = DF)
+
+death_models <- list(mod_race, mod_gender, mod_age, mod_transmission)
+names(death_models) <- c("Race", "Gender", "Age", "Transmission")
+```
+
+Now let's run the test...
+```{r}
+AICdeaths <- aictab(cand.set = death_models, second.ord = TRUE, sort = TRUE)
+AICdeaths
+```
+
+
+k = number of parameters in the model
+AICc - the information score of the model (the lower-case c indicates that the value has been calcuated from the AIC test correct for small sample sizes the smaller the AIC value the better the model fit)
+the first the model that shows up on the list in the table is the best predictor for death count by HIV/AIDS
+looking mainly at the delta AIC score - tells you how much worse than the last predictor
+*look up AIC test - takes a look at the relationship between multiple categories and coun
+
+##^ gender is the best predictor for count
+
+
 
 #Biological Summary / Challenges
-I was not able to run my anova tests to see either of my relationships. While I was unable to run my statistical tests at this time, I plan to do a lot of work over the break in order to fix this problem. I suspect that the problem is relating to the set up of my data as I mentioned before. If this is the case, I will find a new data set to work with. 
+
 
