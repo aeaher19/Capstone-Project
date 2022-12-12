@@ -163,13 +163,14 @@ summary(myMod3)
 
 - This allowed me to accept the null hypothesis that there was no observable relationship between year and death count for cis women as the p value, 0.1858 > 0.05. Below is a figure which represents the (lack of) correlation within this data. Here is both data plotted on the same graph in summary. 
 
-#plot cis women and trans women on the same plot
 ```{r}
 ggplot(data = DF_ciswomen, aes(x = year, y = count, colour = current_gender)) +
   geom_point() +
   geom_smooth(method = "lm", se = FALSE) +
   geom_point(data = DF_transwomen, aes(x = year, y = count, color = current_gender)) +
-  geom_smooth(data = DF_transwomen, aes(x = year, y = count, color = current_gender), method = "lm", se = FALSE)
+  geom_smooth(data = DF_transwomen, aes(x = year, y = count, color = current_gender), method = "lm", se = FALSE)+
+  labs(x = "Year",
+       y = "Cause Deaths by HIV/AIDS")
 ```
 
 ### Test #3
@@ -190,10 +191,11 @@ DF_race_ethnicity
 
 - Then, I visualized this relationship...
 ```{r}
-ggplot(DF_race_ethnicity, aes(race_ethnicity, count))+
+ggplot(DF_race_ethnicity, aes(race_ethnicity, count, fill = race_ethnicity))+
      geom_col()+
   labs(x = "Race / Ethnicity",
-       y = "Cause Deaths by HIV/AIDS")
+       y = "Cause Deaths by HIV/AIDS")+
+  theme(legend.position = "none")
 ```
 
 Based off this visualization I can make the following hypotheses...
@@ -220,6 +222,7 @@ TukeyHSD(myMod2, conf.level=.95)
 - As seen throughout the analysis portion of this project, gender is the best categorical predictor of HIV/AIDS cause deaths but this does not mean in any way that gender causes HIV/AIDS. Instead, the current social order discriminates against certain groups such as trans folks and women based on their gender. The medical field is no exception from this social order and thus, these groups struggle to access equitable health care and therefore experience worse health outcomes (Sharman). 
 - People who are within marginalized communities often experience instances where physicians minimize their pain and ignore important health indicators such as the ones observed in HIV/AIDS. This can lead to misdiagnoses as well as late diagnoses (Kronenfeld). Catching HIV/AIDS within its early stages is crucial in dictating how the disease progresses. Thus, this may be a reason why trans women and cis women are more likely to experience HIV/AIDS cause deaths. 
 - This idea is challenged within my third test as it shows white people as being the most susceptible to cause deaths by HIV/AIDS. The data displayed in Test #3 however may be explained by geography. Here, we can see that Native Hawaiin/Pacific Islander people experienced the lowest number of cause deaths by HIV/AIDS. This could be attributed to the fact that these islands are fairly isolated and would require a lot of travel in order to bring the HIV/AIDS disease to the islands. 
+- While many sources state that white people have better access to health care than any other racial group, this may skew the data when we think about data collection (Kronenfeld). Because white people generally have better access to healthcare, cases of HIV/AIDS may simply be **recognized, reported, and treated** at a higher rate for white people than for people of other races and ethnicities. 
 
 ## Challenges
 - The main take away from this analysis is that gender is a key predictor for HIV/AIDS cause deaths and that trans and cis women are more likely to experience death due to HIV/AIDS.

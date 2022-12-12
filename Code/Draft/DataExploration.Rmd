@@ -5,7 +5,7 @@ date: "11/8/2022"
 output: html_document
 ---
 
-set things up
+set things up with the typical packages
 ```{r}
 rm(list = ls())
 library(here)
@@ -16,9 +16,12 @@ library(dplyr)
 suck in data
 ```{r}
 DF <- read.csv(here("Data", "fixed-deaths.csv"), stringsAsFactors = TRUE)
+DF$count <- as.numeric(DF$count)
+#changed count data to numeric now, so I don't have to later
+#all other variables should be categorical so stringsAsFactors should work fine for those
 ```
 
-check for mistakes
+check for mistakes in my data
 
 age ranges
 ```{r}
@@ -39,11 +42,93 @@ levels(DF$transmission_category)
 
 no errors that i can see... let's explore
 
-histogram
+
+
+## Relationship #1
+let's first see if there is any notable relationship between gender versus cause deaths by HIV/AIDS
+- create a data frame containing only the data i want 
 ```{r}
-ggplot(DF, aes(x = age_at_death))+geom_histogram(stat = "count")
+DF_gender <- DF %>%
+  group_by(current_gender) %>%
+  summarise(count = sum(count)) %>%
+  arrange(desc(count)) %>%
+  na.omit()
+
+DF_gender
 ```
-not sure how to only look at a section of the data....
 
-i need help i dont know how to fix the format of my data
+- plot it
+```{r}
+ggplot(DF_gender, aes(current_gender, count))+
+     geom_col()
+```
 
+- gender is a categorical variable and cause deaths by HIV/AIDS is a numeric variable
+- from this plot we can see that primarily trans and cis women suffer from cause deaths by HIV/AIDS
+- the data ranges from genders with cause deaths less than 25 to almost 400
+
+
+
+## Relationship #2
+now lets see if there is any relationship between HIV cause deaths for trans and cis women over time
+
+- create a data frame for trans women
+```{r, results = 'hide'}
+DF_transwomen <- DF %>%
+  filter(current_gender == "Transgender women")%>%
+  mutate(year = as.numeric(year),
+         count = as.numeric(count))
+DF_transwomen
+```
+
+- create a data frame for cis women
+```{r, results = 'hide'}
+DF_ciswomen <- DF %>%
+  filter(current_gender == "Cisgender women")%>%
+  mutate(year = as.numeric(year),
+         count = as.numeric(count))
+DF_ciswomen
+```
+
+- put them both into a graph to visualize them
+```{r}
+ggplot(data = DF_ciswomen, aes(x = year, y = count, colour = current_gender)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  geom_point(data = DF_transwomen, aes(x = year, y = count, color = current_gender)) +
+  geom_smooth(data = DF_transwomen, aes(x = year, y = count, color = current_gender), method = "lm", se = FALSE)
+```
+
+- year, in this case is considered to be a continuous variable and cause deaths by HIV/AIDS is considered to be a numeric variable
+- from this plot we can see that generally, cause deaths for ciswomen decrease over time while cause deaths for transwomen increase over time
+- the cause deaths by HIV/AIDS for cis and trans women ranges from 40 to over 60
+
+
+
+## Relationship #3
+lastly, let's see if there's any relationship between race and cause deaths by HIV/AIDS
+
+- create a data frame containing only the data I want
+```{r}
+DF_race_ethnicity <- DF %>%
+  group_by(race_ethnicity) %>%
+  summarise(count = sum(count)) %>%
+  arrange(desc(count)) %>%
+  na.omit()
+
+DF_race_ethnicity
+```
+
+- plot it
+```{r}
+ggplot(DF_race_ethnicity, aes(race_ethnicity, count))+
+     geom_col()+
+  labs(x = "Race / Ethnicity",
+       y = "Cause Deaths by HIV/AIDS")
+```
+
+- race/ethnicity is a categorical variable while cause deaths by HIV/AIDS is considered to be a numeric variable
+- from this plot, we can see that generally, white people experienced more cause deaths by HIV/AIDS
+- cause deaths by HIV/AIDS range from a little less than 250 for Hawaiian/Pacific Islander people to nearly 1000 for White people
+
+- These are the three relationships that I will explore further in my data analysis draft. 
