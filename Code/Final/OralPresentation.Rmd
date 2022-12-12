@@ -1,0 +1,183 @@
+---
+title: "CAP DAP Presentation"
+author: "Aubrey Ahern"
+date: "11/30/2022"
+---
+
+
+
+## Introduction
+
+- I took my data from https://data.chhs.ca.gov/dataset/hiv-aids-cases. 
+- The data outlines all cause deaths in HIV/AIDS by gender, age, race/ethnicity, and transmission category. 
+- The data was collected from 2011-2017 within the state of California in order to collect public health information. 
+ 
+ 
+ 
+## Getting Started
+
+- I began by setting things up as usual and importing the typical packages, *here*, *ggfortify*, and *tidyverse* . I also had to import the *AICmodavg* package in order to one run of my statistical tests later on. 
+
+```{r, include = FALSE} 
+rm(list = ls())
+library(here)
+library(ggfortify)
+library(tidyverse)
+library(AICcmodavg)
+```
+ 
+ 
+- I made sure my data was compatible to work with R by...
+    - Excluding spaces and special characters from column names 
+    - Organizing categories into columns instead of rows
+    - Making sure that each cell contained only one piece of information. 
+- After importing my data, I made all variables factors, except for count which I made numeric.
+
+## Limitations
+
+- While this data set contains a lot of information on demographic information on those who have died from HIV/AIDS, it only includes **one** piece of information per row, instead of multiple per datum. I have worked with the data as best I could but would potentially use a more extensive data set in the future. 
+ 
+ 
+```{r, include = FALSE}
+DF <- read.csv(here("Data", "fixed-deaths.csv"), stringsAsFactors = TRUE)
+DF$count <- as.numeric(DF$count)
+```
+
+
+
+## Analysis
+### Test #1
+##### Hypothesis: *There is a correlation between gender and HIV/AIDS cause deaths.*
+##### Null Hypothesis: *There is no correlation between gender and HIV/AIDS cause deaths.*
+
+```{r, results = 'hide'}
+DF_gender <- DF %>%
+  group_by(current_gender) %>%
+  summarise(count = sum(count)) %>%
+  arrange(desc(count)) %>%
+  na.omit()
+
+DF_gender
+```
+
+
+- First, let's visualize this relationship.
+```{r}
+ggplot(DF_gender, aes(current_gender, count))+
+     geom_col()
+```
+
+- This initial visualization supported my hypothesis. I then ran a statistical test to see if I can accept or reject it. This relationship includes one piece of categorical data (current gender) and one piece of count data (count). Thus, I will conduct an ANOVA test.
+
+```{r}
+DF_model <- DF %>%
+  slice(106:140)
+myMod1 <- lm(count ~ current_gender, data = DF_model)
+anova(myMod1)
+```
+- Trans women and cis women experienced significantly more deaths by HIV-AIDS than those of other genders as the p value was 5.778x10^-16^ which is less than 0.05. 
+   
+### Test #2  
+##### Hypothesis: *There is a correlation between HIV/AIDS cause deaths for trans and cis women by year.*
+##### Null Hypothesis: *There is no correlation between HIV/AIDS cause deaths for trans and cis women by year.*
+
+- Since we now know that trans and cis women experience more deaths by HIV-AIDS than those of other genders, let's analyze the relationship between year and deaths for trans and cis women. 
+
+- I created a new data frames that only contains data for trans women.
+```{r, results = 'hide'}
+DF_transwomen <- DF %>%
+  filter(current_gender == "Transgender women")%>%
+  mutate(year = as.numeric(year),
+         count = as.numeric(count))
+DF_transwomen
+```
+
+- Then, I ran a t-test to see if there is a relationship between time (in years) and death count for trans women.
+    - I chose to conduct a t-test rather than another ANOVA test as I considered year to be numeric data rather than categorical. 
+```{r}
+myMod2 <- lm(count ~ year, data = DF_transwomen)
+summary(myMod2)
+```
+
+- This allowed me to accept the null hypothesis that there was no observable relationship between year and death count for trans women as the p value, 0.2964 > 0.05. Below is a figure which represents the (lack of) correlation within this data.
+
+```{r, results = 'hide'}
+ggplot(DF_transwomen, aes(x = year, y = count)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE)+
+  labs(x = "Year",
+       y= "HIV/AIDS Cause Deaths",
+       title = "Trans Women Deaths by Year") +
+  theme_minimal()
+```
+
+- I then did the same for cis women by first creating a new data frame that only contains the data I wish to analyze.
+```{r, results = 'hide'}
+DF_ciswomen <- DF %>%
+  filter(current_gender == "Cisgender women")%>%
+  mutate(year = as.numeric(year),
+         count = as.numeric(count))
+DF_ciswomen
+```
+
+
+```{r}
+myMod3 <- lm(count ~ year, data = DF_ciswomen)
+summary(myMod3)
+```
+
+- This allowed me to accept the null hypothesis that there was no observable relationship between year and death count for cis women as the p value, 0.1858 > 0.05. Below is a figure which represents the (lack of) correlation within this data.
+
+```{r}
+ggplot(DF_ciswomen, aes(x = year, y = count)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE)+
+  labs(x = "Year",
+       y= "HIV/AIDS Cause Deaths",
+       title = "Cis Women Deaths by Year") +
+  theme_minimal()
+```
+
+### Test #3
+##### Hypothesis: *Gender is the best predictor for HIV/AIDS cause deaths.*
+##### Null Hypothesis: *Gender is not the best predictor for HIV/AIDS cause deaths.*
+
+- Lastly, I considered which category, race, gender, age, or transmission method, is the best predictor of deth count by HIV/AIDS. 
+- This calls for a new test called an AIC test. An Akaike information criterion, or an AIC test, allows one to assess how well different models fit a set of data and determine which factor is the best predictor of the data.
+
+For this test, I first had to make linear models for each category...
+```{r}
+mod_race <- lm(count ~ race_ethnicity, data = DF)
+mod_gender <- lm(count ~ current_gender, data = DF)
+mod_age <- lm(count ~ age_at_death, data = DF)
+mod_transmission <- lm(count ~ transmission_category, data = DF)
+
+death_models <- list(mod_race, mod_gender, mod_age, mod_transmission)
+names(death_models) <- c("Race", "Gender", "Age", "Transmission")
+```
+
+Then I was able to run the test...
+```{r}
+AICdeaths <- aictab(cand.set = death_models, second.ord = TRUE, sort = TRUE)
+AICdeaths
+```
+I had to refresh myself on how to read an AIC table and outlined what key pieces of information within the table mean below:
+- k = the number of parameters in the model
+- AICc = the information score of the model (the smaller the AIC value the better the model fit)
+- Delta_AICc = tells you how much worse a variable is than the last predictor listed
+
+Based on this table, we can see that gender is in fact the best predictor for cause deaths by HIV/AIDS. 
+
+
+## Conclusion
+- The main take away from this analysis is that gender is a key predictor for HIV/AIDS cause deaths and that trans and cis women are more likely to experience death due to HIV/AIDS.
+
+## Reflection
+- After completing this project, there is a few things I would do differently...
+    - I would spend more time considering which data I would use. The data I found was pretty difficult to work with and didn't contain as much information as I had hoped. 
+    - I would find data with a larger sample size over a greater amount of time. 
+        - Certain analyses could have been improved if my data spanned over more years.
+    - I would conduct more tests if possible.
+    
+
+
