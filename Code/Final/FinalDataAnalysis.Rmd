@@ -1,24 +1,20 @@
 ---
-title: "Cap DAP Final Draft"
+title: "Cap DAP Final Copy"
 author: "Aubrey Ahern"
 date: "12/14/2022"
 ---
 
-
-
 ## Introduction
-
 - I took my data from https://data.chhs.ca.gov/dataset/hiv-aids-cases. 
 - The data was collected from 2011-2017 within the state of California in order to collect public health information. 
 - The data outlines all cause deaths in HIV/AIDS by gender, age, race/ethnicity, and transmission category. 
 - I used this data to take a look at the distribution of HIV/AIDS cause deaths by different demographic variables, primarily looking at how good of a predictor gender is in determining health outcomes. 
 - While there is no biologic reasoning for why certain groups of people experience HIV/AIDS cause deaths at a higher rate, we can call upon public health knowledge to answer these questions.
   - When taking social determinants of health into consideration, we may see that women and LGBTQ+ communities experience lower accessibility to health care and are often subjected to discrimination within the health care field. This may provide an explanation to the data that will be presented throughout this project (Sharman). 
-
+ 
  
  
 #### Getting Started
-
 - I began by setting things up as usual and importing the typical packages, *here*, *ggfortify*, and *tidyverse* . I also had to import the *AICmodavg* package in order to one run of my statistical tests later on. 
 
 ```{r, include = FALSE} 
@@ -27,8 +23,8 @@ library(here)
 library(ggfortify)
 library(tidyverse)
 library(AICcmodavg)
+library(leaps)
 ```
- 
  
 - I made sure my data was compatible to work with R by...
     - Excluding spaces and special characters from column names 
@@ -37,9 +33,7 @@ library(AICcmodavg)
 - After importing my data, I made all variables factors, except for count which I made numeric.
 
 #### Limitations
-
 - While this data set contains a lot of information on demographic information on those who have died from HIV/AIDS, it only includes **one** piece of information per row, instead of multiple per datum. I have worked with the data as best I could but would potentially use a more extensive data set in the future. 
- 
  
 ```{r, include = FALSE}
 DF <- read.csv(here("Data", "fixed-deaths.csv"), stringsAsFactors = TRUE)
@@ -48,9 +42,11 @@ DF$count <- as.numeric(DF$count)
 
 
 
+
 ## Analysis
 ### Test #1
 
+- First, I created a data frane containing only the data I wanted. 
 ```{r, results = 'hide'}
 DF_gender <- DF %>%
   group_by(current_gender) %>%
@@ -62,33 +58,48 @@ DF_gender
 ```
 
 
-- First, let's visualize this relationship.
+- Next, let's visualize this relationship.
 ```{r}
 ggplot(DF_gender, aes(current_gender, count))+
-     geom_col()
+     geom_col()+
+  labs(x = "Gender",
+       y = "Cause Deaths by HIV/AIDS")
 ```
 
 - Now I can use my visualization to formulate my hypotheses. 
 
-#### Hypothesis: *Trans women and cis women experience HIV/AIDS cause deaths at a higher rate than those of other genders. *
-#### Null Hypothesis: *There is no correlation between gender and HIV/AIDS cause deaths.*
+####**Hypothesis: Trans women and cis women experience HIV/AIDS cause deaths at a higher rate than those of other genders.**
+####**Null Hypothesis: There is no correlation between gender and HIV/AIDS cause deaths.**
 
-- I then ran a statistical test to see if I can accept or reject it. This relationship includes one piece of categorical data (current gender) and one piece of count data (count). Thus, I will conduct an ANOVA test.
+- I then ran a statistical test to see if I can accept or reject it. This relationship includes one piece of categorical data (current gender) and one piece of count data (count). While I originally decided to run an ANOVA test, a tukey test would be more appropriate as it will assess the variability between every comparison of two genders... so let's do it. 
 
 ```{r}
 DF_model <- DF %>%
   slice(106:140)
-myMod1 <- lm(count ~ current_gender, data = DF_model)
-anova(myMod1)
+myMod1 <- aov(count ~ current_gender, data = DF_model)
+TukeyHSD(myMod1, conf.level=.95)
 ```
-- Trans women and cis women experienced significantly more deaths by HIV-AIDS than those of other genders as the p value was 5.778x10^-16^ which is less than 0.05. 
+
+- These results indicate the following conclusions:
+  - There is no significant difference in the number of cause deaths by HIV/AIDS between cisgender men and alternative gender people. 
+  - **Cisgender women experience significantly more cause deaths by HIV/AIDS than alternative gender people.**
+  - There is no significant difference in the number of cause deaths by HIV/AIDS between transgender men and alternative gender people. 
+  - **Transgender women experience significantly more cause deaths by HIV/AIDS than alternative gender people.**
+  - **Cisgender women experience significantly more cause deaths by HIV/AIDS than cisgender men.**
+  - There is no significant difference in the number of cause deaths by HIV/AIDS between transgender men and cisgender men. 
+  - **Transgender women experience significantly more cause deaths by HIV/AIDS than cisgender men.**
+  - **Cisgender women experience significantly more cause deaths by HIV/AIDS than transgender men.**
+  - There is no significant difference in the number of cause deaths by HIV/AIDS between transgender women and cisgender women. 
+  - **Transgender women experience significantly more cause deaths by HIV/AIDS than transgender men.**
+  
+- Thus, both cisgender and transgender women experience significantly more cause deaths by HIV/AIDS than those of any other gender but do not experience significantly different rates of cause deaths by HIV/AIDS from one another and our null hypothesis may be rejected. 
+   
    
    
 ### Test #2  
-
 - Since we now know that trans and cis women experience more deaths by HIV-AIDS than those of other genders, let's analyze the relationship between year and deaths for trans and cis women. 
 
-- I created a new data frames that only contains data for trans women.
+- I created a new data frame that only contains data for trans women.
 ```{r, results = 'hide'}
 DF_transwomen <- DF %>%
   filter(current_gender == "Transgender women")%>%
@@ -99,13 +110,19 @@ DF_transwomen
 
 - Then I visualized this new dataframe.
 ```{r}
-ggplot(DF_transwomen, aes(year, count))+
-     geom_col()
+ggplot(DF_transwomen, aes(x = year, y = count)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE)+
+  labs(x = "Year",
+       y= "HIV/AIDS Cause Deaths",
+       title = "Trans Women Deaths by Year") +
+  theme_minimal()
 ```
 
 - This allowed me to form my hypotheses:
-##### Hypothesis: *Cause deaths by HIV/AIDS increase over time for transwomen*
-##### Null Hypothesis: *There is no correlation between HIV/AIDS cause deaths for trans women by year.*
+
+#####**Hypothesis: Cause deaths by HIV/AIDS increase over time for transwomen**
+#####**Null Hypothesis: There is no correlation between HIV/AIDS cause deaths for trans women by year.**
 
 - Then, I ran a t-test to see if there is a relationship between time (in years) and death count for trans women.
     - I chose to conduct a t-test rather than another ANOVA test as I considered year to be numeric data rather than categorical. 
@@ -115,16 +132,6 @@ summary(myMod2)
 ```
 
 - This allowed me to accept the null hypothesis that there was no observable relationship between year and death count for trans women as the p value, 0.2964 > 0.05. Below is a figure which represents the (lack of) correlation within this data.
-
-```{r, results = 'hide'}
-ggplot(DF_transwomen, aes(x = year, y = count)) +
-  geom_point() +
-  geom_smooth(method = "lm", se = FALSE)+
-  labs(x = "Year",
-       y= "HIV/AIDS Cause Deaths",
-       title = "Trans Women Deaths by Year") +
-  theme_minimal()
-```
 
 - I then did the same for cis women by first creating a new data frame that only contains the data I wish to analyze.
 ```{r, results = 'hide'}
@@ -137,8 +144,13 @@ DF_ciswomen
 
 - Again, I visualized this new data frame...
 ```{r}
-ggplot(DF_ciswomen, aes(year, count))+
-     geom_col()
+ggplot(DF_ciswomen, aes(x = year, y = count)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE)+
+  labs(x = "Year",
+       y= "HIV/AIDS Cause Deaths",
+       title = "Cis Women Deaths by Year") +
+  theme_minimal()
 ```
 
 - This allowed me to form my hypotheses:
@@ -150,57 +162,58 @@ myMod3 <- lm(count ~ year, data = DF_ciswomen)
 summary(myMod3)
 ```
 
-- This allowed me to accept the null hypothesis that there was no observable relationship between year and death count for cis women as the p value, 0.1858 > 0.05. Below is a figure which represents the (lack of) correlation within this data.
+- This allowed me to accept the null hypothesis that there was no observable relationship between year and death count for cis women as the p value, 0.1858 > 0.05. Below is a figure which represents the (lack of) correlation within this data. Here is both data plotted on the same graph in summary. 
 
-```{r}
-ggplot(DF_ciswomen, aes(x = year, y = count)) +
-  geom_point() +
-  geom_smooth(method = "lm", se = FALSE)+
-  labs(x = "Year",
-       y= "HIV/AIDS Cause Deaths",
-       title = "Cis Women Deaths by Year") +
-  theme_minimal()
-```
+#plot cis women and trans women on the same plot
 
 ### Test #3
-##### Hypothesis: *Gender is the best predictor for HIV/AIDS cause deaths.*
-##### Null Hypothesis: *Gender is not the best predictor for HIV/AIDS cause deaths.*
+##look at race and do another tukey test
 
-- Lastly, I considered which category, race, gender, age, or transmission method, is the best predictor of deth count by HIV/AIDS. 
-- This calls for a new test called an AIC test. An Akaike information criterion, or an AIC test, allows one to assess how well different models fit a set of data and determine which factor is the best predictor of the data.
+- Lastly, I wanted to consider which category, race, gender, age, or transmission method, is the best predictor of cause deaths by HIV/AIDS. The data I have selected however, does not lend itself to this nicely. Thus, I chose to analyze the relationship between race and cause deaths by HIV/AIDS. 
 
-For this test, I first had to make linear models for each category...
+- First, I created my new data frame.
 ```{r}
-mod_race <- lm(count ~ race_ethnicity, data = DF)
-mod_gender <- lm(count ~ current_gender, data = DF)
-mod_age <- lm(count ~ age_at_death, data = DF)
-mod_transmission <- lm(count ~ transmission_category, data = DF)
+DF_race_ethnicity <- DF %>%
+  group_by(race_ethnicity) %>%
+  summarise(count = sum(count)) %>%
+  arrange(desc(count)) %>%
+  na.omit()
 
-death_models <- list(mod_race, mod_gender, mod_age, mod_transmission)
-names(death_models) <- c("Race", "Gender", "Age", "Transmission")
+DF_race_ethnicity
 ```
 
+- Then, I visualized this relationship...
 ```{r}
-summary(death_models)
+ggplot(DF_race_ethnicity, aes(race_ethnicity, count))+
+     geom_col()+
+  labs(x = "Race / Ethnicity",
+       y = "Cause Deaths by HIV/AIDS")
 ```
 
+Based off this visualization I can make the following hypotheses...
+##### Hypothesis: *Those who are white experience more cause deaths by HIV/AIDS than those of other races and ethnicities.*
+##### Null Hypothesis: *There is no relationship between race/ethnicity and cause deahts by HIV/AIDS.*
 
-Then I was able to run the test...
+- Now, let's run another tukey test to see if this is true...
 ```{r}
-AICdeaths <- aictab(cand.set = death_models, second.ord = TRUE, sort = TRUE)
-AICdeaths
+DF_model2 <- DF %>%
+  slice(141:189)
+myMod2 <- aov(count ~ race_ethnicity, data = DF_model2)
+TukeyHSD(myMod2, conf.level=.95)
 ```
-I had to refresh myself on how to read an AIC table and outlined what key pieces of information within the table mean below:
-- k = the number of parameters in the model
-- AICc = the information score of the model (the smaller the AIC value the better the model fit)
-- Delta_AICc = tells you how much worse a variable is than the last predictor listed
-
-Based on this table, we can see that gender is in fact the best predictor for cause deaths by HIV/AIDS. 
+- These results indicate the following conclusions:
+  - Native Hawaiin/Pacific Islander people experience significantly **less** cause deaths by HIV/AIDS than those who are American Indian/Alaskan Native. 
+  - Native Hawaiian/Pacific Islander people experience significantly **less** cause deaths by HIV/AIDS than those who are Black/African American.
+  - Native Hawaiian/Pacific Islander people experience significantly **less** cause deaths by HIV/AIDS than those who are Latinx. 
+  - Native Hawaiian/Pacific Islander people experience significantly **less** cause deaths by HIV/AIDS than those who are multiple races.
+  - White people experience significantly **more** cause deaths by HIV/AIDS than those who are Asian.
+  - White people experience significantly **more** cause deaths by HIV/AIDS than those who are Native Hawaiian/Pacific Islander.
 
 ## Biological Summary
 - There is no biological reasoning for why certain genders experience HIV/AIDS at higher rates than others aside from the fact that the virus is present in their communities. 
 - As seen throughout the analysis portion of this project, gender is the best categorical predictor of HIV/AIDS cause deaths but this does not mean in any way that gender causes HIV/AIDS. Instead, the current social order discriminates against certain groups such as trans folks and women based on their gender. The medical field is no exception from this social order and thus, these groups struggle to access equitable health care and therefore experience worse health outcomes (Sharman). 
 - People who are within marginalized communities often experience instances where physicians minimize their pain and ignore important health indicators such as the ones observed in HIV/AIDS. This can lead to misdiagnoses as well as late diagnoses (Kronenfeld). Catching HIV/AIDS within its early stages is crucial in dictating how the disease progresses. Thus, this may be a reason why trans women and cis women are more likely to experience HIV/AIDS cause deaths. 
+- This idea is challenged within my third test as it shows white people as being the most susceptible to cause deaths by HIV/AIDS. The data displayed in Test #3 however may be explained by geography. Here, we can see that Native Hawaiin/Pacific Islander people experienced the lowest number of cause deaths by HIV/AIDS. This could be attributed to the fact that these islands are fairly isolated and would require a lot of travel in order to bring the HIV/AIDS disease to the islands. 
 
 ## Challenges
 - The main take away from this analysis is that gender is a key predictor for HIV/AIDS cause deaths and that trans and cis women are more likely to experience death due to HIV/AIDS.
