@@ -15,8 +15,6 @@ date: "12/14/2022"
  
  
 #### Getting Started
-- I began by setting things up as usual and importing the typical packages, *here*, *ggfortify*, and *tidyverse* . I also had to import the *AICmodavg* package in order to one run of my statistical tests later on. 
-
 ```{r, include = FALSE} 
 rm(list = ls())
 library(here)
@@ -60,10 +58,11 @@ DF_gender
 
 - Next, let's visualize this relationship.
 ```{r}
-ggplot(DF_gender, aes(current_gender, count))+
+ggplot(DF_gender, aes(current_gender, count, fill = current_gender))+
      geom_col()+
   labs(x = "Gender",
-       y = "Cause Deaths by HIV/AIDS")
+       y = "Cause Deaths by HIV/AIDS") +
+  theme(legend.position = "none")
 ```
 
 - Now I can use my visualization to formulate my hypotheses. 
@@ -165,6 +164,13 @@ summary(myMod3)
 - This allowed me to accept the null hypothesis that there was no observable relationship between year and death count for cis women as the p value, 0.1858 > 0.05. Below is a figure which represents the (lack of) correlation within this data. Here is both data plotted on the same graph in summary. 
 
 #plot cis women and trans women on the same plot
+```{r}
+ggplot(data = DF_ciswomen, aes(x = year, y = count, colour = current_gender)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  geom_point(data = DF_transwomen, aes(x = year, y = count, color = current_gender)) +
+  geom_smooth(data = DF_transwomen, aes(x = year, y = count, color = current_gender), method = "lm", se = FALSE)
+```
 
 ### Test #3
 ##look at race and do another tukey test
